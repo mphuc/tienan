@@ -7,7 +7,10 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
+  <span class="pull-right"><?php echo date('d/m/Y H:i:s'); ?></span>
+  
   <div class="container">
+    <h2 class="text-center">Tiền ăn tuần thứ <?php echo $_GET['week'] ?></h2>
     <h2 class="text-center">
       <a href="index.php?route=account/account/prev_week&week=<?php echo intval($_GET['week']-1) ?>">
         <button type="button" class="btn">Prev</button>
@@ -107,7 +110,18 @@
           </td>
 
           <td><?php echo $total_chi = $self -> total_week($values['customer_id'],intval($_GET['week'])) ?></td>
-          <td style="font-weight: bold; font-size: 18px"><?php echo $total_chi - $total_an ?></td>
+          <?php 
+            $style = "background: #fff";
+            if (($total_chi - $total_an) > 0)
+            {
+              $style = "background: rgba(76, 175, 80, 0.48);";
+            }
+            if (($total_chi - $total_an) < 0)
+            {
+              $style = "background: rgba(244, 67, 54, 0.54);";
+            }
+          ?>
+          <td style="font-weight: bold; font-size: 18px; <?php echo $style;?>"><?php echo $total_chi - $total_an ?></td>
         </tr>
       <?php } ?>
       
