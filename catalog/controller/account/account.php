@@ -21,9 +21,26 @@ class ControllerAccountAccount extends Controller {
 		{
 
 			$get_last_tienan= $this -> model_account_customer -> get_last_tienan();
+
+			
+
 			$this -> response -> redirect($this -> url -> link('account/account&week='.intval($get_last_tienan['week']).'', '', 'SSL'));
 		}
+		else
+		{
+			$get_last_tienan = $this -> model_account_customer -> check_week(intval($this -> request -> get['week']));
+			intval($get_last_tienan) === 0 && die('<h1>No data!</h1>');
+		}
 
+		/*$get_last_tienan = $this -> model_account_customer -> check_week(intval($this -> request -> get['week']));
+		if (intval($get_last_tienan) == 0)
+		{
+			$get_all_username = $this -> model_account_customer -> get_all_username();
+			foreach ($get_all_username as $value) {
+				$this -> model_account_customer -> insert_tienan(intval($this -> request -> get['week']),$value['customer_id']);
+			}
+			$this -> response -> redirect($this -> url -> link('account/account&week='.intval($this -> request -> get['week']).'', '', 'SSL'));
+		}*/
 		
 		$this -> response -> setOutput($this -> load -> view($this -> config -> get('config_template') . '/template/account/account.tpl', $data));
 		
@@ -70,8 +87,8 @@ class ControllerAccountAccount extends Controller {
 		$this -> load -> model('account/customer');
 		$data['self'] = $this;
 
-		$get_last_tienan = $this -> model_account_customer -> get_last_tienan();
-		if (intval($get_last_tienan['week']) ==  intval($this -> request -> get['week']))
+		$get_last_tienan = $this -> model_account_customer -> check_week(intval($this -> request -> get['week']));
+		if (intval($get_last_tienan) > 0)
 		{
 			$this -> response -> redirect($this -> url -> link('account/account&week='.intval($this -> request -> get['week']).'', '', 'SSL'));
 		}

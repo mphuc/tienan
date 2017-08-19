@@ -74,9 +74,10 @@ class ModelAccountCustomer extends Model {
 
 	public function calue_total($week,$customer_id,$thu)
 	{
+		
 		$query = $this -> db -> query("
 			SELECT sum(thu".$thu.") as number FROM " . DB_PREFIX . "tienan 
-			WHERE week = '".$week."'  AND thu".$thu." > 0
+			WHERE week = '".$week."' 
 		");
 		$total_all = $query -> row['number'];
 
@@ -105,6 +106,8 @@ class ModelAccountCustomer extends Model {
 		{
 			$thu22 = ($tienantotal/$total_all)*$solanan;
 		}
+		
+
 		return $thu22;
 	}
 
